@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  margin: auto;
+  padding: 1em;
+}
+
+hr {
+  margin-top: 2em;
+  margin-bottom: 2em;
+}
+
+.top-row div {
+  width: 100%;
+}
+
+.bottom-row div {
+  width: 70%;
+}
+
+.bottom-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+.register, .login, .reset-password {
+  border: 1px solid black;
+  padding: 1em;
+  margin: 1em;
+}
