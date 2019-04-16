@@ -1,6 +1,11 @@
 import React, { Component } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
+import LoggedInTab from './components/LoggedInTab';
+import LoggedOutTab from './components/LoggedOutTab';
 import './App.css';
 import firebase from './firebase';
 
@@ -8,14 +13,13 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'jjouhansson@gmail.com',
-      password: '',
       user: null,
       loggedIn: false,
       newEmail: '',
       newPassword: '',
       newPassword2: '',
       emailReset: '',
+      tab: 0,
     };
     this.fireBaseListener = this.fireBaseListener();
   }
@@ -28,12 +32,10 @@ class App extends Component {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         // User is signed in.
-        this.setState({ loggedIn: true });
-        console.log(user);
+        this.setState({ loggedIn: true, user, tab: 1 });
       } else {
         // No user is signed in.
-        console.log('no sign-in')
-        this.setState({ loggedIn: false });
+        this.setState({ loggedIn: false, user: null, tab: 0 });
       }
     });
   }
@@ -44,19 +46,24 @@ class App extends Component {
 
   handleLogin = () => {
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
+    .then((result) => {
+      console.log(result);
+      //this.setState({ user: result.user });
+    })
     .catch((error) => {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
-      throw new Error(`${errorCode}: ${errorMessage}`);
-    })
-    .catch((error) => console.log(error));
+      console.log(errorCode);
+      console.log(errorMessage);
+    });
   }
 
   handleLogout = () => {
     firebase.auth().signOut()
     .then(() => {
       console.log('signed out successfully!');
+      //this.setState({ user: null });
     })
     .catch((error) => {
       console.log(error);
@@ -87,59 +94,50 @@ class App extends Component {
     });    
   }
 
-  auth = () => {
+  handleTabChange = (event, value) => {
+    this.setState({ tab: value });
+  }
+
+  test = () => {
+    console.log(this.state.user);
+    /*
     const user = firebase.auth().currentUser;
     if (user != null) {
-      console.log(user.emailVerified);
       console.log(user);
     } else {
       console.log('no user logged in');
-    }  
+    }
+    */
+  }
+
+  rootHandler = (email,password) => {
+    this.setState({ email, password });
   }
 
   render() {
+    const { tab } = this.state;
+
     return (
       <div className="App">
+      <Typography component="h4" variant="h4" gutterBottom>
+        Logged in: {this.state.loggedIn ? 'true' : 'false'}
+      </Typography>
         <div className="login">
-          <div className="top-row">
-            <h2>Logged in: {this.state.loggedIn ? 'true' : 'false'}</h2>
-            <TextField
-              id="standard-email-input"
-              label="Email"
-              type="email"
-              name="email"
-              autoComplete="email"
-              margin="normal"
-              value={this.state.email}
-              onChange={this.handleInput}
-            />
-          </div>
-          <div className="bottom-row">
-            <TextField
-              id="standard-password-input"
-              label="Password"
-              type="Password"
-              name="password"
-              autoComplete="current-password"
-              margin="normal"
-              onChange={this.handleInput}
-              value={this.state.pswd}
-            />
-            <Button onClick={this.handleLogin} color="primary">
-              LOG IN
-            </Button>
-            <Button onClick={this.handleLogout} color="primary">
-              LOG OUT
-            </Button>
-            <Button onClick={this.auth} color="primary">
-              AUTH
-            </Button>
+          <div className="tabs">
+            <Tabs value={tab} onChange={this.handleTabChange}>
+              <Tab label="Login" />
+              <Tab label="Logged in" disabled={!this.state.loggedIn} />
+            </Tabs>
+            {tab === 0 && <LoggedOutTab rootHandler={this.rootHandler} handleLogin={this.handleLogin} test={this.test} />}
+            {tab === 1 && <LoggedInTab user={this.state.user} handleLogout={this.handleLogout} />}
           </div>
         </div>
 
         <div className="register">
           <div className="top-row">
-            <h2>Register</h2>
+            <Typography component="h5" variant="h5" gutterBottom>
+              Register
+            </Typography>
             <TextField
               id="standard-email-input"
               label="Email"
@@ -181,7 +179,9 @@ class App extends Component {
 
         <div className="reset-password">
           <div className="top-row">
-            <h2>Reset your password</h2>
+            <Typography component="h5" variant="h5" gutterBottom>
+              Reset your password
+            </Typography>
           </div>
           <div className="bottom-row">
             <TextField
