@@ -8,7 +8,7 @@ class LoginTab extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: 'jjouhansson@gmail.com',
+      email: '',
       password: '',
       emailError: false,
       emailErrorMessage: '',
