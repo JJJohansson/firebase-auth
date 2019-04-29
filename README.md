@@ -9,3 +9,8 @@
 ### Todo:
 * grab user ID token and verify it in the backend before redirecting
 * TBA..
+
+### Libraries used
+* ReactJS
+* React-router
+* Material-UI
