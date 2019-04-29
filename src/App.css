@@ -9,12 +9,7 @@
   flex-direction: column;
   width: 800px;
   margin: auto;
-  padding: 1em;
-}
-
-hr {
-  margin-top: 2em;
-  margin-bottom: 2em;
+  margin-top: 3em;
 }
 
 .top-row div {
@@ -22,7 +17,7 @@ hr {
 }
 
 .bottom-row div {
-  width: 70%;
+  width: 80%;
 }
 
 .bottom-row {
@@ -31,8 +26,12 @@ hr {
   justify-content: space-between;
 }
 
-.register, .login, .reset-password {
+.login {
   border: 1px solid black;
   padding: 1em;
   margin: 1em;
+}
+
+.email-sent-snackbar {
+  background-color: green;
 }
