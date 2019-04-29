@@ -8,7 +8,7 @@ import LoginTab from '../components/LoginTab';
 import RegistrationTab from '../components/RegistrationTab';
 import PasswordResetTab from '../components/PasswordResetTab';
 import LandingPage from './LandingPage';
-import firebase from '../firebase';
+import firebase from '../util/firebase';
 import auth from '../util/auth';
 
 class RootPage extends Component {

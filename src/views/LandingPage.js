@@ -4,14 +4,29 @@ import { BrowserRouter, Switch, Link } from 'react-router-dom';
 import { ProtectedRoute } from '../router/ProtectedRoute';
 import TestPageOne from './TestPageOne';
 import TestPageTwo from './TestPageTwo';
-import firebase from '../firebase';
+import firebase from '../util/firebase';
 
 class LandingPage extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+    };
+  }
 
   componentDidMount() {
     console.log('Landing Page');
     console.log(this.props);
     console.log('logged in:', auth.isLoggedin());
+
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ email: user.email });
+        // ...
+      } else {
+        this.setState({ email: '' });
+      }
+    });
 
     // gotta authenticate this at the backend before redirecting..
     try {
@@ -23,7 +38,6 @@ class LandingPage extends Component {
     } catch (error) {
       console.error(error);
     }
-    
   }
 
   handleLogout = () => {
@@ -42,6 +56,7 @@ class LandingPage extends Component {
   render() {
     return (
       <div>
+        <h1>Hello {this.state.email}!</h1>
         <BrowserRouter>
           <div>
             <nav>

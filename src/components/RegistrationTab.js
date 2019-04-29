@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import auth from '../util/auth';
-import firebase from '../firebase';
+import firebase from '../util/firebase';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import SnackbarNotification from './SnackbarNotification';

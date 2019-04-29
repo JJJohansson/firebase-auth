@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import SnackbarNotification from './SnackbarNotification';
-import firebase from '../firebase';
+import firebase from '../util/firebase';
 import '../App.css';
 
 class PasswordResetTab extends Component {
