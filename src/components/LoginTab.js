@@ -39,7 +39,7 @@ class LoginTab extends Component {
         });
       })
       .catch((error) => {
-        console.log(error);
+        console.error(error);
         switch(error.code) {
           case 'auth/invalid-email':
             this.setState({ emailError: true, emailErrorMessage: error.message });
