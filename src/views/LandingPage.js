@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import auth from '../util/auth';
 import { BrowserRouter, Switch, Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import { ProtectedRoute } from '../router/ProtectedRoute';
 import TestPageOne from './TestPageOne';
 import TestPageTwo from './TestPageTwo';
@@ -10,20 +11,10 @@ class LandingPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
+      email: this.props.user,
     };
   }
-
-  componentDidMount() {
-    this.firebaseListener();
-  }
   
-  firebaseListener = () => {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) this.setState({ email: user.email });
-    });
-  }
-
   handleLogout = () => {
     firebase.auth().signOut()
       .then(() => {
@@ -57,4 +48,11 @@ class LandingPage extends Component {
   }
 }
 
-export default LandingPage;
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user.user,
+  }
+}
+
+export default connect(mapStateToProps, null)(LandingPage);

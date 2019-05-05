@@ -1,4 +1,5 @@
 import actionTypes from './actionTypes';
+import auth from '../../util/auth';
 import axios from 'axios';
 
 export const userLogin_REQ = () => ({
@@ -34,7 +35,6 @@ export function login(idToken) {
       .then((response) => {
         dispatch(userLogin_OK(response.data));
       })
-      .catch(error => dispatch(userLogin_ERROR(error.response.data)));
-
+      .catch(error => dispatch(userLogin_ERROR(error)));
   }
 }

@@ -21,6 +21,10 @@ class LoginTab extends Component {
     };
   }
 
+  componentDidUpdate() {
+    if (this.props.loggedIn) this.redirectUser();
+  }
+
   handleInput = (e) => {
     let emailError = this.state.emailError;
     let passwordError = this.state.passwordError;
@@ -66,15 +70,7 @@ class LoginTab extends Component {
       });
   }
 
-  /*
-  - login flow
-    - firebase login and id token in login tab
-    - then send token through dispatch to store action
-    - send the token through action to backend
-  - log out actions
-*/
   test = () => {
-    console.log('asdasd');
     if (!this.state.email || !this.state.password) return;
 
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
@@ -135,10 +131,16 @@ class LoginTab extends Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return {
+    loggedIn: state.user.loggedIn,
+  }
+}
+
 const mapDispatchToProps = dispatch => ({
   onLogin: (credentials) => {
     dispatch(login(credentials));
   }
 });
 
-export default connect(null, mapDispatchToProps)(LoginTab);
+export default connect(mapStateToProps, mapDispatchToProps)(LoginTab);
