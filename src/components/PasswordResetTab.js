@@ -22,15 +22,10 @@ class PasswordResetTab extends Component {
 
   handlePasswordReset = () => {
     firebase.auth().sendPasswordResetEmail(this.state.email)
-      .then((response) => {
-        // Email sent.
-        console.log(response);
-        console.log('email sent!');
-        this.setState({ emailSent: true, error: false, errorMessage: '', resetSuccess: true });
-      })
+      .then(() => this.setState({ emailSent: true, error: false, errorMessage: '', resetSuccess: true }))
       .catch((error) => {
         // An error happened.
-        console.log(error.code, error.message);
+        console.error(error);
         this.setState({ error: true, errorMessage: error.message });
       });
   }

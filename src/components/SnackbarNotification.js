@@ -31,7 +31,7 @@ class SnackbarNotification extends React.Component {
           variant="success"
           message={this.state.message}
           action={[
-            <Button color="secondary" size="small" onClick={this.handleClose}>
+            <Button key="confirm" color="secondary" size="small" onClick={this.handleClose}>
               OKAY
             </Button>
           ]}

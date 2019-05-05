@@ -8,7 +8,6 @@ import TestPageTwo from '../views/TestPageTwo';
 
 class Navigator extends Component {
   render() {
-    console.log(this.props.path)
     return (
       <BrowserRouter>
         <div>

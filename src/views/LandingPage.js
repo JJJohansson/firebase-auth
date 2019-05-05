@@ -15,42 +15,22 @@ class LandingPage extends Component {
   }
 
   componentDidMount() {
-    console.log('Landing Page');
-    console.log(this.props);
-    console.log('logged in:', auth.isLoggedin());
-
+    this.firebaseListener();
+  }
+  
+  firebaseListener = () => {
     firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.setState({ email: user.email });
-        // ...
-      } else {
-        this.setState({ email: '' });
-      }
+      if (user) this.setState({ email: user.email });
     });
-
-    // gotta authenticate this at the backend before redirecting..
-    try {
-      firebase.auth().currentUser.getIdToken(/* forceRefresh */ true).then(function(idToken) {
-        console.log('idToken', idToken);
-      }).catch(function(error) {
-        console.error(error);
-      });
-    } catch (error) {
-      console.error(error);
-    }
   }
 
   handleLogout = () => {
     firebase.auth().signOut()
       .then(() => {
         console.log('signed out successfully!');
-        auth.logout(() => {
-          this.props.history.push('/');
-        });
+        auth.logout(() => this.props.history.push('/'));
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch(error => console.log(error));
   }
 
   render() {

@@ -3,14 +3,14 @@ class Auth {
     this.loggedIn = false;
   }
 
-  login(cb) {
+  login(callback) {
     this.loggedIn = true;
-    cb();
+    callback();
   }
 
-  logout(cb) {
+  logout(callback) {
     this.loggedIn = false;
-    cb();
+    callback();
   }
 
   isLoggedin() {

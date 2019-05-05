@@ -8,8 +8,6 @@ import LoginTab from '../components/LoginTab';
 import RegistrationTab from '../components/RegistrationTab';
 import PasswordResetTab from '../components/PasswordResetTab';
 import LandingPage from './LandingPage';
-import firebase from '../util/firebase';
-import auth from '../util/auth';
 
 class RootPage extends Component {
   constructor(props) {
@@ -17,12 +15,6 @@ class RootPage extends Component {
     this.state = {
       tab: 0,
     };
-  }
-
-  componentDidMount() {
-    console.log('RootPage');
-    console.log(this.props);
-    console.log('logged in:', auth.isLoggedin());
   }
 
   handleTabChange = (event, value) => {
