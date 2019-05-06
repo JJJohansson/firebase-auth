@@ -29,6 +29,7 @@ class RegistrationTab extends Component {
 
   handleRegister = () => {
     if (this.state.newPassword !== this.state.newPassword2) return;
+    
     firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
       .then(response => {
         console.log(response);

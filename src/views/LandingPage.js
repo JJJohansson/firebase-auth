@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import auth from '../util/auth';
 import { BrowserRouter, Switch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { logout } from '../store/actions/user';
 import { ProtectedRoute } from '../router/ProtectedRoute';
 import TestPageOne from './TestPageOne';
 import TestPageTwo from './TestPageTwo';
-import firebase from '../util/firebase';
 
 class LandingPage extends Component {
   constructor(props) {
@@ -14,14 +14,13 @@ class LandingPage extends Component {
       email: this.props.user,
     };
   }
+
+  componentDidUpdate() {
+    if (!this.props.loggedIn) auth.logout(() => this.props.history.push('/'));
+  }
   
   handleLogout = () => {
-    firebase.auth().signOut()
-      .then(() => {
-        console.log('signed out successfully!');
-        auth.logout(() => this.props.history.push('/'));
-      })
-      .catch(error => console.log(error));
+    this.props.onLogout();
   }
 
   render() {
@@ -41,8 +40,7 @@ class LandingPage extends Component {
             </Switch>
           </div>
         </BrowserRouter>
-        <button
-          onClick={this.handleLogout}>Logout</button>
+        <button onClick={this.handleLogout}>Logout</button>
       </div>
     );
   }
@@ -52,7 +50,14 @@ class LandingPage extends Component {
 const mapStateToProps = (state) => {
   return {
     user: state.user.user,
+    loggedIn: state.user.loggedIn,
   }
-}
+};
 
-export default connect(mapStateToProps, null)(LandingPage);
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => {
+    dispatch(logout());
+  }
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LandingPage);

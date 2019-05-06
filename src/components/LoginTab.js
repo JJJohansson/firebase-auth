@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import firebase from '../util/firebase';
 import auth from '../util/auth';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { login } from '../store/actions/user';
 import TextField from '@material-ui/core/TextField';
@@ -22,7 +21,7 @@ class LoginTab extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.loggedIn) this.redirectUser();
+    if (this.props.loggedIn) auth.login(() => this.props.history.push('/home'));
   }
 
   handleInput = (e) => {
@@ -33,48 +32,12 @@ class LoginTab extends Component {
     this.setState({ [e.target.name]: e.target.value, emailError, passwordError });
   }
 
-  redirectUser = () => {
-    auth.login(() => this.props.history.push('/home'));
-  }
-
-  verifyToken = (idToken) => {
-    const request = {
-      method: 'get',
-      url: `http://localhost:3001/auth`,
-      headers: {
-        'token': idToken,
-      }
-    };
-    
-    axios(request)
-      .then((response) => {
-        if (response.data === this.state.email) this.redirectUser();
-      })
-      .catch(error => console.error(error));
-  }
-
   handleLogin = () => {
-    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-      .then(() => {
-        firebase.auth().currentUser.getIdToken(true)
-          .then(idToken => this.verifyToken(idToken))
-          .catch(error => console.error(error));
-      })
-      .catch((error) => {
-        // there are 4 different errors. 1 for password and 3 for email.
-        if (error.code === 'auth/wrong-password') {
-          this.setState({ passwordError: true, passwordErrorMessage: error.message });
-        } else {
-          this.setState({ emailError: true, emailErrorMessage: error.message });
-        }
-      });
-  }
-
-  test = () => {
     if (!this.state.email || !this.state.password) return;
 
     firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password)
-    .then(() => {
+    .then((result) => {
+      console.log(result);
       firebase.auth().currentUser.getIdToken(true)
         .then(idToken => this.props.onLogin(idToken))
         .catch(error => console.error(error));
@@ -121,9 +84,6 @@ class LoginTab extends Component {
           />
           <Button onClick={this.handleLogin} color="primary">
             LOG IN
-          </Button>
-          <Button onClick={this.test} color="primary">
-            REDUX
           </Button>
         </div>
       </div>

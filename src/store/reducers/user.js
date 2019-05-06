@@ -30,6 +30,28 @@ export default function user(state = initialState, action) {
         isLoading: false,
       };
 
+    case actionTypes.USER_LOGOUT_REQ:
+      return {
+        ...state,
+        isLoading: true,
+      };
+
+    case actionTypes.USER_LOGOUT_OK:
+      return {
+        ...state,
+        loggedIn: false,
+        user: null,
+        error: null,
+        isLoading: false,
+      };
+
+    case actionTypes.USER_LOGOUT_ERROR:
+      return {
+        ...state,
+        error: action.payload,
+        isLoading: false,
+      };
+
     default:
       return state;
   }
