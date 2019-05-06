@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { ProtectedRoute } from '../router/ProtectedRoute';
+import ProtectedRoute from './ProtectedRoute';
 import RootPage from '../views/RootPage';
 import LandingPage from '../views/LandingPage';
 import TestPageOne from '../views/TestPageOne';

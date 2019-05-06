@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import auth from '../util/auth';
 import { BrowserRouter, Switch, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../store/actions/user';
-import { ProtectedRoute } from '../router/ProtectedRoute';
+import ProtectedRoute from '../router/ProtectedRoute';
 import TestPageOne from './TestPageOne';
 import TestPageTwo from './TestPageTwo';
 
@@ -16,7 +15,7 @@ class LandingPage extends Component {
   }
 
   componentDidUpdate() {
-    if (!this.props.loggedIn) auth.logout(() => this.props.history.push('/'));
+    if (!this.props.loggedIn) this.props.history.push('/');
   }
   
   handleLogout = () => {

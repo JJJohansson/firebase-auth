@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import firebase from '../util/firebase';
-import auth from '../util/auth';
 import { connect } from 'react-redux';
 import { login } from '../store/actions/user';
 import TextField from '@material-ui/core/TextField';
@@ -21,7 +20,7 @@ class LoginTab extends Component {
   }
 
   componentDidUpdate() {
-    if (this.props.loggedIn) auth.login(() => this.props.history.push('/home'));
+    if (this.props.loggedIn) this.props.history.push('/home');
   }
 
   handleInput = (e) => {

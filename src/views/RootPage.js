@@ -3,7 +3,7 @@ import '../App.css';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { BrowserRouter, Switch } from 'react-router-dom';
-import { ProtectedRoute } from '../router/ProtectedRoute';
+import ProtectedRoute from '../router/ProtectedRoute';
 import LoginTab from '../components/LoginTab';
 import RegistrationTab from '../components/RegistrationTab';
 import PasswordResetTab from '../components/PasswordResetTab';
